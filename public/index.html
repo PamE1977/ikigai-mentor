@@ -230,6 +230,7 @@
             background: #fafafa;
             transition: all 0.3s;
             color: #3d3d3d;
+            min-height: 100px;
         }
 
         textarea:focus {
@@ -328,6 +329,8 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0d5cc;
         }
 
         .responses-list {
@@ -381,6 +384,7 @@
             font-weight: 600;
             margin-bottom: 6px;
             font-size: 13px;
+            word-wrap: break-word;
         }
 
         .response-item small {
@@ -456,8 +460,8 @@
                     <div class="button-grid">
                         <button class="quadrant-btn active" onclick="selectQuadrant('pasion')">LO QUE ME MUEVE</button>
                         <button class="quadrant-btn" onclick="selectQuadrant('habilidad')">LO QUE EL EQUIPO NECESITA</button>
-                        <button class="quadrant-btn" onclick="selectQuadrant('valor')">HUELLA</button>
                         <button class="quadrant-btn" onclick="selectQuadrant('sustento')">LO QUE SÉ HACER</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('valor')">HUELLA</button>
                     </div>
 
                     <textarea id="inputText" rows="3" placeholder="Escribe tu aporte..." style="margin-bottom: 12px;"></textarea>
@@ -475,12 +479,12 @@
                         <span id="count-habilidad">0</span>
                     </div>
                     <div class="counter-row">
-                        <span>Huella</span>
-                        <span id="count-valor">0</span>
-                    </div>
-                    <div class="counter-row">
                         <span>Lo que sé hacer</span>
                         <span id="count-sustento">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Huella</span>
+                        <span id="count-valor">0</span>
                     </div>
                 </div>
 
@@ -500,12 +504,12 @@
                     <div class="responses-list" id="list-habilidad"></div>
                 </div>
                 <div class="quadrant-column">
-                    <h4>Huella</h4>
-                    <div class="responses-list" id="list-valor"></div>
-                </div>
-                <div class="quadrant-column">
                     <h4>Lo que sé hacer</h4>
                     <div class="responses-list" id="list-sustento"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Huella</h4>
+                    <div class="responses-list" id="list-valor"></div>
                 </div>
             </div>
         </div>
@@ -622,13 +626,13 @@
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
                 habilidad: { x: [460, 740], y: [60, 340] },
-                valor: { x: [460, 740], y: [460, 740] },
-                sustento: { x: [60, 340], y: [460, 740] }
+                sustento: { x: [60, 340], y: [460, 740] },
+                valor: { x: [460, 740], y: [460, 740] }
             };
 
             const quad = quadrants[quadKey];
-            const rowHeight = 35;
-            const padding = 20;
+            const rowHeight = 40;
+            const padding = 30;
             
             const y = quad.y[0] + padding + (index * rowHeight);
             const x = quad.x[0] + padding + (Math.random() * (quad.x[1] - quad.x[0] - padding * 2));
@@ -638,10 +642,10 @@
 
         function getFontSize(index, total) {
             const position = total - index;
-            return Math.max(13, Math.min(24, 13 + (position / Math.max(total, 1)) * 11));
+            return Math.max(14, Math.min(26, 14 + (position / Math.max(total, 1)) * 12));
         }
 
-        function truncateText(text, maxLength = 20) {
+        function truncateText(text, maxLength = 30) {
             return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
         }
 
@@ -669,27 +673,27 @@
 
             const centerX = width / 2;
             const centerY = height / 2;
-            const radius = 100;
+            const radius = 110;
 
-            ctx.fillStyle = '#faf8f5';
+            ctx.fillStyle = '#f0ebe3';
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.strokeStyle = '#e8dfd5';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#d4c9ba';
+            ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.stroke();
 
             ctx.fillStyle = '#4a4a4a';
-            ctx.font = 'bold 40px Arial';
+            ctx.font = 'bold 48px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('IKIGAI', centerX, centerY - 20);
-            ctx.font = 'bold 32px Arial';
+            ctx.fillText('IKIGAI', centerX, centerY - 25);
+            ctx.font = 'bold 48px Arial';
             ctx.fillStyle = '#6b6b6b';
-            ctx.fillText('MENTOR', centerX, centerY + 30);
+            ctx.fillText('MENTOR', centerX, centerY + 35);
 
             Object.entries(responses).forEach(([quadKey, items]) => {
                 items.forEach((item, idx) => {
@@ -703,29 +707,29 @@
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     
-                    const truncated = truncateText(item.text, 22);
+                    const truncated = truncateText(item.text, 30);
                     ctx.fillText(truncated, pos.x, pos.y);
                     ctx.globalAlpha = 1;
                 });
             });
 
-            ctx.globalAlpha = 0.85;
-ctx.font = 'bold 18px Arial';
-ctx.textAlign = 'center';
-ctx.textBaseline = 'middle';
+            ctx.globalAlpha = 0.8;
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
 
-ctx.fillStyle = colors.pasion;
-ctx.fillText('LO QUE ME MUEVE', 120, 25);
+            ctx.fillStyle = colors.pasion;
+            ctx.fillText('LO QUE ME MUEVE', 120, 25);
 
-ctx.fillStyle = colors.habilidad;
-ctx.fillText('LO QUE EL EQUIPO', 680, 20);
-ctx.fillText('NECESITA', 680, 40);
+            ctx.fillStyle = colors.habilidad;
+            ctx.fillText('LO QUE EL EQUIPO', 680, 20);
+            ctx.fillText('NECESITA', 680, 40);
 
-ctx.fillStyle = colors.valor;
-ctx.fillText('HUELLA', 680, 775);
+            ctx.fillStyle = colors.sustento;
+            ctx.fillText('LO QUE SÉ HACER', 120, 775);
 
-ctx.fillStyle = colors.sustento;
-ctx.fillText('LO QUE SÉ HACER', 120, 775);
+            ctx.fillStyle = colors.valor;
+            ctx.fillText('HUELLA', 680, 775);
 
             ctx.globalAlpha = 1;
         }
