@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            background: linear-gradient(135deg, #faf9f7 0%, #f5f1eb 100%);
             min-height: 100vh;
             padding: 32px;
         }
@@ -37,105 +37,120 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            background: linear-gradient(135deg, #faf9f7 0%, #f5f1eb 100%);
             z-index: 1000;
         }
 
         .name-box {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 32px;
-            max-width: 400px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            padding: 48px;
+            max-width: 420px;
             width: 100%;
             text-align: center;
         }
 
         .name-box h1 {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 300;
-            color: #1e293b;
-            margin-bottom: 16px;
+            color: #3d3d3d;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .name-box h1 br + * {
+            font-weight: 400;
         }
 
         .name-box p {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 24px;
+            color: #8b8b8b;
+            font-size: 15px;
+            margin-bottom: 32px;
+            font-weight: 300;
         }
 
         .name-box input {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            margin-bottom: 16px;
+            padding: 14px 16px;
+            border: 1px solid #e0d5cc;
+            border-radius: 10px;
+            margin-bottom: 20px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            background: #fafafa;
+            transition: all 0.3s;
         }
 
         .name-box input:focus {
             outline: none;
-            border-color: #1e293b;
+            border-color: #b8956f;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(184, 149, 111, 0.08);
         }
 
         .name-box button {
             width: 100%;
-            padding: 12px;
-            background: #1e293b;
+            padding: 14px;
+            background: linear-gradient(135deg, #b8956f 0%, #9d7e5f 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 15px;
         }
 
         .name-box button:hover {
-            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184, 149, 111, 0.2);
         }
 
         .session-info {
             font-size: 12px;
-            color: #94a3b8;
-            margin-top: 16px;
+            color: #a8a8a8;
+            margin-top: 20px;
+            font-weight: 300;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 300;
-            color: #1e293b;
+            color: #3d3d3d;
             margin-bottom: 8px;
+            letter-spacing: -1px;
         }
 
         .header p {
-            color: #64748b;
-            font-size: 14px;
+            color: #8b8b8b;
+            font-size: 15px;
+            font-weight: 300;
         }
 
         .participants-online {
-            font-size: 12px;
-            color: #10b981;
-            margin-top: 8px;
+            font-size: 13px;
+            color: #7ec97e;
+            margin-top: 12px;
+            font-weight: 500;
         }
 
         .main-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 32px;
-            margin-bottom: 32px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
         .canvas-container {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -143,93 +158,109 @@
 
         canvas {
             max-width: 100%;
-            border-radius: 8px;
+            border-radius: 12px;
         }
 
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 28px;
         }
 
         .card h3 {
             font-size: 16px;
-            font-weight: 500;
-            color: #1e293b;
-            margin-bottom: 16px;
+            font-weight: 600;
+            color: #3d3d3d;
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
         }
 
         .button-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 16px;
         }
 
         .quadrant-btn {
-            padding: 8px 12px;
-            border: 1px solid #e2e8f0;
-            background: #f1f5f9;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #475569;
+            padding: 10px 12px;
+            border: 1.5px solid #e0d5cc;
+            background: #fafafa;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b6b6b;
             cursor: pointer;
             transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .quadrant-btn.active {
-            background: #1e293b;
+            background: #b8956f;
             color: white;
-            border-color: #1e293b;
+            border-color: #b8956f;
+            box-shadow: 0 4px 12px rgba(184, 149, 111, 0.2);
         }
 
         .quadrant-btn:hover {
-            background: #e2e8f0;
+            border-color: #b8956f;
+            background: #fef6f0;
         }
 
         .quadrant-btn.active:hover {
-            background: #0f172a;
+            background: #9d7e5f;
         }
 
         textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            border: 1px solid #e0d5cc;
+            border-radius: 10px;
             font-family: inherit;
             font-size: 14px;
             resize: none;
-            transition: border-color 0.3s;
+            background: #fafafa;
+            transition: all 0.3s;
+            color: #3d3d3d;
         }
 
         textarea:focus {
             outline: none;
-            border-color: #1e293b;
+            border-color: #b8956f;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(184, 149, 111, 0.08);
+        }
+
+        textarea::placeholder {
+            color: #b8b8b8;
         }
 
         .add-btn {
             width: 100%;
-            padding: 10px;
-            background: #1e293b;
+            padding: 12px;
+            background: linear-gradient(135deg, #b8956f 0%, #9d7e5f 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 10px;
+            font-weight: 600;
             cursor: pointer;
             font-size: 14px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .add-btn:hover {
-            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 149, 111, 0.25);
         }
 
         .counter {
@@ -239,59 +270,64 @@
         .counter-row {
             display: flex;
             justify-content: space-between;
-            color: #64748b;
-            margin-bottom: 8px;
+            color: #6b6b6b;
+            margin-bottom: 12px;
+            font-size: 14px;
         }
 
         .counter-row span:last-child {
-            font-weight: 600;
-            color: #1e293b;
+            font-weight: 700;
+            color: #3d3d3d;
         }
 
         .download-btn {
             width: 100%;
             padding: 12px;
-            background: #1e293b;
+            background: linear-gradient(135deg, #7ec97e 0%, #6db36d 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 10px;
+            font-weight: 600;
             cursor: pointer;
             font-size: 14px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .download-btn:hover {
-            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(126, 201, 126, 0.25);
         }
 
         .responses-section {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 28px;
         }
 
         .responses-section h3 {
-            font-size: 16px;
-            font-weight: 500;
-            color: #1e293b;
-            margin-bottom: 24px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #3d3d3d;
+            margin-bottom: 28px;
+            letter-spacing: -0.3px;
         }
 
         .responses-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            gap: 24px;
         }
 
         .quadrant-column h4 {
-            font-size: 13px;
-            font-weight: 600;
-            color: #475569;
+            font-size: 12px;
+            font-weight: 700;
+            color: #6b6b6b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .responses-list {
@@ -299,20 +335,40 @@
             overflow-y: auto;
         }
 
+        .responses-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .responses-list::-webkit-scrollbar-track {
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .responses-list::-webkit-scrollbar-thumb {
+            background: #d4d4d4;
+            border-radius: 10px;
+        }
+
         .response-item {
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
+            background: #fafafa;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
             border-left: 4px solid;
             font-size: 13px;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.4s ease;
+            transition: all 0.2s;
+        }
+
+        .response-item:hover {
+            background: #f5f5f5;
+            transform: translateX(4px);
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-12px);
             }
             to {
                 opacity: 1;
@@ -321,25 +377,28 @@
         }
 
         .response-item p {
-            color: #1e293b;
-            font-weight: 500;
-            margin-bottom: 4px;
+            color: #3d3d3d;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
         }
 
         .response-item small {
-            color: #64748b;
-            font-size: 11px;
+            color: #8b8b8b;
+            font-size: 12px;
         }
 
         .empty-message {
-            color: #94a3b8;
-            font-size: 12px;
+            color: #b8b8b8;
+            font-size: 13px;
             font-style: italic;
+            font-weight: 300;
         }
 
         @media (max-width: 1024px) {
             .main-grid {
                 grid-template-columns: 1fr;
+                gap: 32px;
             }
 
             .responses-grid {
@@ -353,7 +412,11 @@
             }
 
             .header h1 {
-                font-size: 32px;
+                font-size: 36px;
+            }
+
+            .name-box {
+                padding: 32px;
             }
         }
     </style>
@@ -380,21 +443,21 @@
 
         <div class="main-grid">
             <div class="canvas-container">
-                <canvas id="cloud" width="800" height="800" style="border-radius: 8px;"></canvas>
+                <canvas id="cloud" width="800" height="800" style="border-radius: 12px;"></canvas>
             </div>
 
             <div class="sidebar">
                 <div class="card">
                     <h3>Agregar aporte</h3>
                     
-                    <label style="font-size: 14px; color: #475569; font-weight: 500; display: block; margin-bottom: 8px;">
+                    <label style="font-size: 13px; color: #6b6b6b; font-weight: 600; display: block; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.3px;">
                         Cuadrante:
                     </label>
                     <div class="button-grid">
                         <button class="quadrant-btn active" onclick="selectQuadrant('pasion')">LO QUE ME MUEVE</button>
-<button class="quadrant-btn" onclick="selectQuadrant('habilidad')">LO QUE NECESITA EL EQUIPO</button>
-<button class="quadrant-btn" onclick="selectQuadrant('valor')">HUELLA</button>
-<button class="quadrant-btn" onclick="selectQuadrant('sustento')">LO QUE SÉ HACER</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('habilidad')">LO QUE EL EQUIPO NECESITA</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('valor')">HUELLA</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('sustento')">LO QUE SÉ HACER</button>
                     </div>
 
                     <textarea id="inputText" rows="3" placeholder="Escribe tu aporte..." style="margin-bottom: 12px;"></textarea>
@@ -404,19 +467,19 @@
                 <div class="card counter">
                     <h3>Aportes totales</h3>
                     <div class="counter-row">
-                        <span>Pasión</span>
+                        <span>Lo que me mueve</span>
                         <span id="count-pasion">0</span>
                     </div>
                     <div class="counter-row">
-                        <span>Habilidad</span>
+                        <span>Lo que el equipo necesita</span>
                         <span id="count-habilidad">0</span>
                     </div>
                     <div class="counter-row">
-                        <span>Valor al mundo</span>
+                        <span>Huella</span>
                         <span id="count-valor">0</span>
                     </div>
                     <div class="counter-row">
-                        <span>Sustento</span>
+                        <span>Lo que sé hacer</span>
                         <span id="count-sustento">0</span>
                     </div>
                 </div>
@@ -429,19 +492,19 @@
             <h3>Todos los aportes</h3>
             <div class="responses-grid">
                 <div class="quadrant-column">
-                    <h4>Pasión</h4>
+                    <h4>Lo que me mueve</h4>
                     <div class="responses-list" id="list-pasion"></div>
                 </div>
                 <div class="quadrant-column">
-                    <h4>Habilidad</h4>
+                    <h4>Lo que el equipo necesita</h4>
                     <div class="responses-list" id="list-habilidad"></div>
                 </div>
                 <div class="quadrant-column">
-                    <h4>Valor al mundo</h4>
+                    <h4>Huella</h4>
                     <div class="responses-list" id="list-valor"></div>
                 </div>
                 <div class="quadrant-column">
-                    <h4>Sustento</h4>
+                    <h4>Lo que sé hacer</h4>
                     <div class="responses-list" id="list-sustento"></div>
                 </div>
             </div>
@@ -454,10 +517,10 @@
         const socket = io();
 
         const colors = {
-            pasion: '#ff6b6b',
-            habilidad: '#4ecdc4',
-            valor: '#45b7d1',
-            sustento: '#f7b731'
+            pasion: '#E89B6F',
+            habilidad: '#7EC97E',
+            valor: '#9B6F9B',
+            sustento: '#6F8FB3'
         };
 
         let responses = {
@@ -592,8 +655,8 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, width, height);
 
-            ctx.strokeStyle = '#f0f0f0';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#f0ede8';
+            ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(400, 60);
             ctx.lineTo(400, 740);
@@ -608,25 +671,25 @@
             const centerY = height / 2;
             const radius = 100;
 
-            ctx.fillStyle = '#f8f8f8';
+            ctx.fillStyle = '#faf8f5';
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.strokeStyle = '#e0e0e0';
+            ctx.strokeStyle = '#e8dfd5';
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.stroke();
 
-            ctx.fillStyle = '#2d3748';
-            ctx.font = 'bold 36px Arial';
+            ctx.fillStyle = '#4a4a4a';
+            ctx.font = 'bold 40px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('IKIGAI', centerX, centerY - 20);
-            ctx.font = 'bold 28px Arial';
-            ctx.fillStyle = '#4a5568';
-            ctx.fillText('MENTOR', centerX, centerY + 28);
+            ctx.font = 'bold 32px Arial';
+            ctx.fillStyle = '#6b6b6b';
+            ctx.fillText('MENTOR', centerX, centerY + 30);
 
             Object.entries(responses).forEach(([quadKey, items]) => {
                 items.forEach((item, idx) => {
@@ -646,22 +709,22 @@
                 });
             });
 
-            ctx.globalAlpha = 0.7;
+            ctx.globalAlpha = 0.75;
             ctx.font = 'bold 13px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
             ctx.fillStyle = colors.pasion;
-            ctx.fillText('PASIÓN', 120, 30);
+            ctx.fillText('LO QUE ME MUEVE', 120, 30);
 
             ctx.fillStyle = colors.habilidad;
-            ctx.fillText('HABILIDAD', 680, 30);
+            ctx.fillText('LO QUE EL EQUIPO\nNECESITA', 680, 30);
 
             ctx.fillStyle = colors.valor;
-            ctx.fillText('VALOR AL MUNDO', 680, 770);
+            ctx.fillText('HUELLA', 680, 770);
 
             ctx.fillStyle = colors.sustento;
-            ctx.fillText('SUSTENTO', 120, 770);
+            ctx.fillText('LO QUE SÉ HACER', 120, 770);
 
             ctx.globalAlpha = 1;
         }
