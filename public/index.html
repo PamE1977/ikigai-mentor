@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKIGAI MENTOR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            min-height: 100vh;
+            padding: 32px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .name-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            z-index: 1000;
+        }
+
+        .name-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 32px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .name-box h1 {
+            font-size: 32px;
+            font-weight: 300;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .name-box p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .name-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .name-box input:focus {
+            outline: none;
+            border-color: #1e293b;
+        }
+
+        .name-box button {
+            width: 100%;
+            padding: 12px;
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .name-box button:hover {
+            background: #0f172a;
+        }
+
+        .session-info {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 16px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 300;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .participants-online {
+            font-size: 12px;
+            color: #10b981;
+            margin-top: 8px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .canvas-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 24px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .quadrant-btn {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            background: #f1f5f9;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quadrant-btn.active {
+            background: #1e293b;
+            color: white;
+            border-color: #1e293b;
+        }
+
+        .quadrant-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .quadrant-btn.active:hover {
+            background: #0f172a;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: none;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #1e293b;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 10px;
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .add-btn:hover {
+            background: #0f172a;
+        }
+
+        .counter {
+            font-size: 14px;
+        }
+
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .counter-row span:last-child {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+        }
+
+        .responses-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 24px;
+        }
+
+        .responses-section h3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 24px;
+        }
+
+        .responses-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .quadrant-column h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .responses-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .response-item {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 4px solid;
+            font-size: 13px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .response-item p {
+            color: #1e293b;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .response-item small {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .empty-message {
+            color: #94a3b8;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .responses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .responses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="name-screen" id="nameScreen">
+        <div class="name-box">
+            <h1>IKIGAI<br>MENTOR</h1>
+            <p>¿Cómo te llamas?</p>
+            <input type="text" id="nameInput" placeholder="Tu nombre (opcional)">
+            <button onclick="startSession()">Comenzar</button>
+            <div class="session-info">Sincronización en tiempo real para todos</div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="mainApp">
+        <div class="header">
+            <h1>IKIGAI MENTOR</h1>
+            <p>Construyamos juntos - <span id="displayName">Participante</span></p>
+            <div class="participants-online">
+                <span id="participantCount">●</span> participantes en línea
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="canvas-container">
+                <canvas id="cloud" width="800" height="800" style="border-radius: 8px;"></canvas>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <h3>Agregar aporte</h3>
+                    
+                    <label style="font-size: 14px; color: #475569; font-weight: 500; display: block; margin-bottom: 8px;">
+                        Cuadrante:
+                    </label>
+                    <div class="button-grid">
+                        <button class="quadrant-btn active" onclick="selectQuadrant('pasion')">PASIÓN</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('habilidad')">HABILIDAD</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('valor')">VALOR AL MUNDO</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('sustento')">SUSTENTO</button>
+                    </div>
+
+                    <textarea id="inputText" rows="3" placeholder="Escribe tu aporte..." style="margin-bottom: 12px;"></textarea>
+                    <button class="add-btn" onclick="addResponse()">Agregar</button>
+                </div>
+
+                <div class="card counter">
+                    <h3>Aportes totales</h3>
+                    <div class="counter-row">
+                        <span>Pasión</span>
+                        <span id="count-pasion">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Habilidad</span>
+                        <span id="count-habilidad">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Valor al mundo</span>
+                        <span id="count-valor">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Sustento</span>
+                        <span id="count-sustento">0</span>
+                    </div>
+                </div>
+
+                <button class="download-btn" onclick="downloadImage()">Descargar imagen</button>
+            </div>
+        </div>
+
+        <div class="responses-section">
+            <h3>Todos los aportes</h3>
+            <div class="responses-grid">
+                <div class="quadrant-column">
+                    <h4>Pasión</h4>
+                    <div class="responses-list" id="list-pasion"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Habilidad</h4>
+                    <div class="responses-list" id="list-habilidad"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Valor al mundo</h4>
+                    <div class="responses-list" id="list-valor"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Sustento</h4>
+                    <div class="responses-list" id="list-sustento"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+
+        const colors = {
+            pasion: '#ff6b6b',
+            habilidad: '#4ecdc4',
+            valor: '#45b7d1',
+            sustento: '#f7b731'
+        };
+
+        let responses = {
+            pasion: [],
+            habilidad: [],
+            valor: [],
+            sustento: []
+        };
+
+        let currentQuadrant = 'pasion';
+        let participantName = '';
+        let sessionId = '';
+
+        function getSessionId() {
+            const pathParts = window.location.pathname.split('/');
+            const id = pathParts[pathParts.length - 1];
+            return id && id !== '' ? id : 'general';
+        }
+
+        function startSession() {
+            const name = document.getElementById('nameInput').value;
+            participantName = name || 'Anónimo';
+            sessionId = getSessionId();
+
+            document.getElementById('displayName').textContent = participantName;
+            document.getElementById('nameScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+
+            socket.emit('join_session', {
+                sessionId: sessionId,
+                participantName: participantName
+            });
+
+            drawCloud();
+        }
+
+        function selectQuadrant(quad) {
+            currentQuadrant = quad;
+            document.querySelectorAll('.quadrant-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function addResponse() {
+            const text = document.getElementById('inputText').value.trim();
+            if (!text) return;
+
+            socket.emit('add_response', {
+                sessionId: sessionId,
+                quadrant: currentQuadrant,
+                text: text,
+                author: participantName
+            });
+
+            document.getElementById('inputText').value = '';
+        }
+
+        socket.on('load_data', (data) => {
+            responses = data.responses;
+            updateCounters();
+            updateLists();
+            drawCloud();
+        });
+
+        socket.on('response_added', (data) => {
+            responses = data.allResponses;
+            updateCounters();
+            updateLists();
+            drawCloud();
+        });
+
+        socket.on('update_participants', (data) => {
+            document.getElementById('participantCount').textContent = data.count;
+        });
+
+        function updateCounters() {
+            document.getElementById('count-pasion').textContent = responses.pasion.length;
+            document.getElementById('count-habilidad').textContent = responses.habilidad.length;
+            document.getElementById('count-valor').textContent = responses.valor.length;
+            document.getElementById('count-sustento').textContent = responses.sustento.length;
+        }
+
+        function updateLists() {
+            ['pasion', 'habilidad', 'valor', 'sustento'].forEach(quad => {
+                const container = document.getElementById(`list-${quad}`);
+                if (responses[quad].length === 0) {
+                    container.innerHTML = '<p class="empty-message">Sin aportes</p>';
+                } else {
+                    container.innerHTML = responses[quad].map((item, idx) => `
+                        <div class="response-item" style="border-left-color: ${colors[quad]}">
+                            <p>${item.text}</p>
+                            <small>— ${item.author}</small>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+
+        function getPositionInQuadrant(quadKey, index, total) {
+            const quadrants = {
+                pasion: { x: [60, 340], y: [60, 340] },
+                habilidad: { x: [460, 740], y: [60, 340] },
+                valor: { x: [460, 740], y: [460, 740] },
+                sustento: { x: [60, 340], y: [460, 740] }
+            };
+
+            const quad = quadrants[quadKey];
+            const rowHeight = 35;
+            const padding = 20;
+            
+            const y = quad.y[0] + padding + (index * rowHeight);
+            const x = quad.x[0] + padding + (Math.random() * (quad.x[1] - quad.x[0] - padding * 2));
+
+            return { x, y: Math.min(y, quad.y[1] - padding) };
+        }
+
+        function getFontSize(index, total) {
+            const position = total - index;
+            return Math.max(13, Math.min(24, 13 + (position / Math.max(total, 1)) * 11));
+        }
+
+        function truncateText(text, maxLength = 20) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function drawCloud() {
+            const canvas = document.getElementById('cloud');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = 800;
+            const height = 800;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.strokeStyle = '#f0f0f0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(400, 60);
+            ctx.lineTo(400, 740);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(60, 400);
+            ctx.lineTo(740, 400);
+            ctx.stroke();
+
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = 100;
+
+            ctx.fillStyle = '#f8f8f8';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = '#2d3748';
+            ctx.font = 'bold 36px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('IKIGAI', centerX, centerY - 20);
+            ctx.font = 'bold 28px Arial';
+            ctx.fillStyle = '#4a5568';
+            ctx.fillText('MENTOR', centerX, centerY + 28);
+
+            Object.entries(responses).forEach(([quadKey, items]) => {
+                items.forEach((item, idx) => {
+                    const fontSize = getFontSize(idx, items.length);
+                    const pos = getPositionInQuadrant(quadKey, idx, items.length);
+                    const color = colors[quadKey];
+
+                    ctx.font = `bold ${fontSize}px Arial`;
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = 0.85;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    
+                    const truncated = truncateText(item.text, 22);
+                    ctx.fillText(truncated, pos.x, pos.y);
+                    ctx.globalAlpha = 1;
+                });
+            });
+
+            ctx.globalAlpha = 0.7;
+            ctx.font = 'bold 13px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            ctx.fillStyle = colors.pasion;
+            ctx.fillText('PASIÓN', 120, 30);
+
+            ctx.fillStyle = colors.habilidad;
+            ctx.fillText('HABILIDAD', 680, 30);
+
+            ctx.fillStyle = colors.valor;
+            ctx.fillText('VALOR AL MUNDO', 680, 770);
+
+            ctx.fillStyle = colors.sustento;
+            ctx.fillText('SUSTENTO', 120, 770);
+
+            ctx.globalAlpha = 1;
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('cloud');
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'ikigai-mentor.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('inputText')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addResponse();
+            });
+            document.getElementById('nameInput')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') startSession();
+            });
+        });
+    </script>
+</body>
+</html>
