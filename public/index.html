@@ -626,23 +626,36 @@
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
                 habilidad: { x: [460, 740], y: [60, 340] },
-                valor: { x: [60, 340], y: [460, 740] },
-                sustento: { x: [460, 740], y: [460, 740] }
+                sustento: { x: [60, 340], y: [460, 740] },
+                valor: { x: [460, 740], y: [460, 740] }
             };
 
             const quad = quadrants[quadKey];
-            const rowHeight = 40;
-            const padding = 30;
+            const rowHeight = 30;
+            const padding = 50;
             
             const y = quad.y[0] + padding + (index * rowHeight);
             const x = quad.x[0] + padding + (Math.random() * (quad.x[1] - quad.x[0] - padding * 2));
 
-            return { x, y: Math.min(y, quad.y[1] - padding) };
+            return { x, y: Math.min(y, quad.y[1] - padding - 20) };
         }
 
         function getFontSize(index, total) {
+            // Calcular un font size más uniforme basado en el total
+            // Si hay muchas palabras, todas se achican un poco
+            let minSize = 10;
+            let maxSize = 16;
+            
+            if (total > 15) {
+                minSize = 9;
+                maxSize = 14;
+            } else if (total > 10) {
+                minSize = 10;
+                maxSize = 15;
+            }
+            
             const position = total - index;
-            return Math.max(11, Math.min(20, 11 + (position / Math.max(total, 1)) * 9));
+            return Math.max(minSize, Math.min(maxSize, minSize + (position / Math.max(total, 1)) * (maxSize - minSize)));
         }
 
         function truncateText(text, maxLength = 50) {
@@ -725,11 +738,11 @@
             ctx.fillText('LO QUE EL EQUIPO', 680, 20);
             ctx.fillText('NECESITA', 680, 40);
 
-            ctx.fillStyle = colors.valor;
-            ctx.fillText('HUELLA', 120, 775);
-
             ctx.fillStyle = colors.sustento;
-            ctx.fillText('LO QUE SÉ HACER', 680, 775);
+            ctx.fillText('LO QUE SÉ HACER', 120, 775);
+
+            ctx.fillStyle = colors.valor;
+            ctx.fillText('HUELLA', 680, 775);
 
             ctx.globalAlpha = 1;
         }
