@@ -631,25 +631,26 @@
             };
 
             const quad = quadrants[quadKey];
-            const rowHeight = 30;
-            const padding = 50;
+            const rowHeight = 28;
+            const padding = 60;
             
             const y = quad.y[0] + padding + (index * rowHeight);
             const x = quad.x[0] + padding + (Math.random() * (quad.x[1] - quad.x[0] - padding * 2));
 
-            return { x, y: Math.min(y, quad.y[1] - padding - 20) };
+            return { x, y: Math.min(y, quad.y[1] - padding - 30) };
         }
 
         function getFontSize(index, total) {
-            // Calcular un font size más uniforme basado en el total
-            // Si hay muchas palabras, todas se achican un poco
             let minSize = 10;
-            let maxSize = 16;
+            let maxSize = 15;
             
             if (total > 15) {
                 minSize = 9;
-                maxSize = 14;
+                maxSize = 13;
             } else if (total > 10) {
+                minSize = 9;
+                maxSize = 14;
+            } else if (total > 5) {
                 minSize = 10;
                 maxSize = 15;
             }
@@ -720,7 +721,7 @@
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     
-                    const truncated = truncateText(item.text, 30);
+                    const truncated = truncateText(item.text, 40);
                     ctx.fillText(truncated, pos.x, pos.y);
                     ctx.globalAlpha = 1;
                 });
