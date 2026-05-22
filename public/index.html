@@ -626,8 +626,8 @@
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
                 habilidad: { x: [460, 740], y: [60, 340] },
-                sustento: { x: [60, 340], y: [460, 740] },
-                valor: { x: [460, 740], y: [460, 740] }
+           sustento: { x: [460, 740], y: [460, 740] },
+            valor: { x: [60, 340], y: [460, 740] }
             };
 
             const quad = quadrants[quadKey];
@@ -740,7 +740,8 @@
             ctx.fillText('NECESITA', 680, 40);
 
             ctx.fillStyle = colors.sustento;
-            ctx.fillText('LO QUE SÉ HACER', 120, 775);
+            ctx.fillText('LO QUE SÉ HACER', 680, 775);
+ctx.fillText('HUELLA', 120, 775);
 
             ctx.fillStyle = colors.valor;
             ctx.fillText('HUELLA', 680, 775);
