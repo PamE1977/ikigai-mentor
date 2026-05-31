@@ -737,7 +737,7 @@
             const centerX = 400;
             const centerY = 400;
             const radius = 100;
-            const exclusionBuffer = 30;
+            const exclusionBuffer = 20;
 
             ctx.fillStyle = '#f0ebe3';
             ctx.beginPath();
@@ -774,7 +774,7 @@
                     const truncated = truncateText(item.text, 40);
                     
                     let foundPosition = false;
-                    for (let attempt = 0; attempt < 25; attempt++) {
+                    for (let attempt = 0; attempt < 50; attempt++) {
                         const pos = getPositionInQuadrant(quadKey, idx, items.length, attempt);
                         
                         if (isValidPosition(pos, fontSize, truncated, ctx, centerX, centerY, radius + exclusionBuffer, drawnTexts, quadrants, quadKey)) {
