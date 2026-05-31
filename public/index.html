@@ -518,7 +518,6 @@
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pptxgen.js@3.12.0/dist/pptxgen.umd.js"></script>
 
     <script>
         const socket = io();
@@ -625,7 +624,7 @@
             });
         }
 
-        function getPositionInQuadrant(quadKey, index, total) {
+        function getPositionInQuadrant(quadKey, index, total, attempt = 0) {
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
                 habilidad: { x: [460, 740], y: [60, 340] },
@@ -634,52 +633,83 @@
             };
 
             const quad = quadrants[quadKey];
-            const padding = 20;
+            const padding = 25;
             
             const minX = quad.x[0] + padding;
             const maxX = quad.x[1] - padding;
             const minY = quad.y[0] + padding;
             const maxY = quad.y[1] - padding;
             
-            let cols = 1;
-            if (total > 6) cols = 2;
-            if (total > 14) cols = 3;
-            if (total > 20) cols = 4;
-            
-            const rows = Math.ceil(total / cols);
-            const cellWidth = (maxX - minX) / cols;
-            const cellHeight = (maxY - minY) / rows;
-            
-            const col = index % cols;
-            const row = Math.floor(index / cols);
-            
-            const basePosX = minX + col * cellWidth + cellWidth / 2;
-            const basePosY = minY + row * cellHeight + cellHeight / 2;
-            
-            const randomX = (Math.random() - 0.5) * cellWidth * 0.7;
-            const randomY = (Math.random() - 0.5) * cellHeight * 0.7;
-            
-            let x = basePosX + randomX;
-            let y = basePosY + randomY;
-            
-            x = Math.max(minX + 10, Math.min(x, maxX - 10));
-            y = Math.max(minY + 10, Math.min(y, maxY - 10));
-            
-            return { x, y };
+            if (attempt < 15) {
+                let cols = 1;
+                if (total > 6) cols = 2;
+                if (total > 14) cols = 3;
+                if (total > 20) cols = 4;
+                
+                const rows = Math.ceil(total / cols);
+                const cellWidth = (maxX - minX) / cols;
+                const cellHeight = (maxY - minY) / rows;
+                
+                const col = index % cols;
+                const row = Math.floor(index / cols);
+                
+                const basePosX = minX + col * cellWidth + cellWidth / 2;
+                const basePosY = minY + row * cellHeight + cellHeight / 2;
+                
+                const randomX = (Math.random() - 0.5) * cellWidth * 0.5;
+                const randomY = (Math.random() - 0.5) * cellHeight * 0.5;
+                
+                let x = basePosX + randomX;
+                let y = basePosY + randomY;
+                
+                x = Math.max(minX + 10, Math.min(x, maxX - 10));
+                y = Math.max(minY + 10, Math.min(y, maxY - 10));
+                
+                return { x, y };
+            } else {
+                const x = minX + Math.random() * (maxX - minX);
+                const y = minY + Math.random() * (maxY - minY);
+                return { x, y };
+            }
         }
 
         function getFontSize(index, total) {
-            if (total <= 3) return 13;
-            if (total <= 5) return 12;
-            if (total <= 8) return 11;
-            if (total <= 12) return 10;
-            if (total <= 16) return 9;
-            if (total <= 24) return 8;
-            return 7;
+            if (total <= 3) return 12;
+            if (total <= 5) return 11;
+            if (total <= 8) return 10;
+            if (total <= 12) return 9;
+            if (total <= 16) return 8;
+            if (total <= 24) return 7;
+            return 6;
         }
 
-        function truncateText(text, maxLength = 50) {
+        function truncateText(text, maxLength = 40) {
             return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function isValidPosition(pos, fontSize, text, ctx, centerX, centerY, excludeRadius, drawnTexts, quadrants, quadKey) {
+            const textWidth = ctx.measureText(text).width;
+            const textHeight = fontSize + 4;
+            
+            const distToCenter = Math.sqrt((pos.x - centerX)**2 + (pos.y - centerY)**2);
+            if (distToCenter < excludeRadius + textHeight / 2 + 5) return false;
+            
+            const quad = quadrants[quadKey];
+            if (pos.x - textWidth / 2 < quad.x[0] + 15) return false;
+            if (pos.x + textWidth / 2 > quad.x[1] - 15) return false;
+            if (pos.y - textHeight / 2 < quad.y[0] + 15) return false;
+            if (pos.y + textHeight / 2 > quad.y[1] - 15) return false;
+            
+            for (const drawn of drawnTexts) {
+                const dx = pos.x - drawn.x;
+                const dy = pos.y - drawn.y;
+                const distanceBetween = Math.sqrt(dx*dx + dy*dy);
+                const minDistance = (textWidth + drawn.width) / 2 + (textHeight + drawn.height) / 2 + 8;
+                
+                if (distanceBetween < minDistance) return false;
+            }
+            
+            return true;
         }
 
         function drawCloud() {
@@ -704,9 +734,10 @@
             ctx.lineTo(740, 400);
             ctx.stroke();
 
-            const centerX = width / 2;
-            const centerY = height / 2;
-            const radius = 110;
+            const centerX = 400;
+            const centerY = 400;
+            const radius = 100;
+            const exclusionBuffer = 30;
 
             ctx.fillStyle = '#f0ebe3';
             ctx.beginPath();
@@ -720,34 +751,60 @@
             ctx.stroke();
 
             ctx.fillStyle = '#4a4a4a';
-            ctx.font = 'bold 40px Arial';
+            ctx.font = 'bold 36px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('IKIGAI', centerX, centerY - 22);
-            ctx.font = 'bold 40px Arial';
+            ctx.fillText('IKIGAI', centerX, centerY - 18);
+            ctx.font = 'bold 36px Arial';
             ctx.fillStyle = '#6b6b6b';
-            ctx.fillText('MENTOR', centerX, centerY + 28);
+            ctx.fillText('MENTOR', centerX, centerY + 24);
+
+            const quadrants = {
+                pasion: { x: [60, 340], y: [60, 340] },
+                habilidad: { x: [460, 740], y: [60, 340] },
+                valor: { x: [60, 340], y: [460, 740] },
+                sustento: { x: [460, 740], y: [460, 740] }
+            };
+
+            const drawnTexts = [];
 
             Object.entries(responses).forEach(([quadKey, items]) => {
                 items.forEach((item, idx) => {
                     const fontSize = getFontSize(idx, items.length);
-                    const pos = getPositionInQuadrant(quadKey, idx, items.length);
-                    const color = colors[quadKey];
-
-                    ctx.font = `${fontSize}px Arial`;
-                    ctx.fillStyle = color;
-                    ctx.globalAlpha = 0.65;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    
                     const truncated = truncateText(item.text, 40);
-                    ctx.fillText(truncated, pos.x, pos.y);
-                    ctx.globalAlpha = 1;
+                    
+                    let foundPosition = false;
+                    for (let attempt = 0; attempt < 25; attempt++) {
+                        const pos = getPositionInQuadrant(quadKey, idx, items.length, attempt);
+                        
+                        if (isValidPosition(pos, fontSize, truncated, ctx, centerX, centerY, radius + exclusionBuffer, drawnTexts, quadrants, quadKey)) {
+                            const color = colors[quadKey];
+                            ctx.font = `${fontSize}px Arial`;
+                            ctx.fillStyle = color;
+                            ctx.globalAlpha = 0.65;
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(truncated, pos.x, pos.y);
+                            ctx.globalAlpha = 1;
+                            
+                            const textWidth = ctx.measureText(truncated).width;
+                            drawnTexts.push({
+                                x: pos.x,
+                                y: pos.y,
+                                width: textWidth,
+                                height: fontSize + 4,
+                                quadrant: quadKey
+                            });
+                            
+                            foundPosition = true;
+                            break;
+                        }
+                    }
                 });
             });
 
             ctx.globalAlpha = 1;
-            ctx.font = 'bold 18px Arial';
+            ctx.font = 'bold 16px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
@@ -755,8 +812,8 @@
             ctx.fillText('LO QUE ME MUEVE', 120, 25);
 
             ctx.fillStyle = colors.habilidad;
-            ctx.fillText('LO QUE EL EQUIPO', 680, 20);
-            ctx.fillText('NECESITA', 680, 40);
+            ctx.fillText('LO QUE EL EQUIPO', 680, 18);
+            ctx.fillText('NECESITA', 680, 36);
 
             ctx.fillStyle = colors.valor;
             ctx.fillText('HUELLA', 120, 775);
@@ -783,17 +840,31 @@
             const canvas = document.getElementById('cloud');
             const imageData = canvas.toDataURL('image/png');
             
-            const pres = new PptxGenJS();
-            let slide = pres.addSlide();
-            slide.addImage({
-                data: imageData,
-                x: 0,
-                y: 0,
-                w: '100%',
-                h: '100%'
-            });
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IKIGAI MENTOR</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        .slide { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #faf9f7; }
+        img { width: 100%; height: 100%; object-fit: contain; }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <img src="${imageData}" alt="IKIGAI MENTOR">
+    </div>
+</body>
+</html>`;
             
-            pres.save({ fileName: 'ikigai-mentor.pptx' });
+            const blob = new Blob([html], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ikigai-mentor.html';
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         function showQR() {
