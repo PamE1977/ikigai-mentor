@@ -624,58 +624,67 @@
             });
         }
 
-        function getSimplePosition(quadKey, index, total, quadrants, centerX, centerY, excludeRadius) {
+        function getOptimalGridPosition(quadKey, index, total, quadrants, centerX, centerY, excludeRadius) {
             const quad = quadrants[quadKey];
-            const padding = 25;
+            const padding = 18;
             
             const minX = quad.x[0] + padding;
             const maxX = quad.x[1] - padding;
             const minY = quad.y[0] + padding;
             const maxY = quad.y[1] - padding;
             
-            let cols = 1;
-            if (total > 4) cols = 2;
-            if (total > 9) cols = 3;
-            if (total > 16) cols = 4;
+            const quadWidth = maxX - minX;
+            const quadHeight = maxY - minY;
+            
+            let cols;
+            if (total <= 3) cols = 1;
+            else if (total <= 6) cols = 2;
+            else if (total <= 12) cols = 3;
+            else if (total <= 20) cols = 4;
+            else cols = 5;
             
             const rows = Math.ceil(total / cols);
-            const cellWidth = (maxX - minX) / cols;
-            const cellHeight = (maxY - minY) / rows;
+            const cellWidth = quadWidth / cols;
+            const cellHeight = quadHeight / rows;
             
             const col = index % cols;
             const row = Math.floor(index / cols);
             
-            const baseX = minX + col * cellWidth + cellWidth / 2;
-            const baseY = minY + row * cellHeight + cellHeight / 2;
+            const baseCellX = minX + col * cellWidth + cellWidth / 2;
+            const baseCellY = minY + row * cellHeight + cellHeight / 2;
             
-            const randomX = (Math.random() - 0.5) * cellWidth * 0.4;
-            const randomY = (Math.random() - 0.5) * cellHeight * 0.4;
+            const maxRandomX = cellWidth * 0.15;
+            const maxRandomY = cellHeight * 0.15;
+            const randomX = (Math.random() - 0.5) * maxRandomX;
+            const randomY = (Math.random() - 0.5) * maxRandomY;
             
-            let x = baseX + randomX;
-            let y = baseY + randomY;
+            let x = baseCellX + randomX;
+            let y = baseCellY + randomY;
             
-            x = Math.max(minX + 15, Math.min(x, maxX - 15));
-            y = Math.max(minY + 15, Math.min(y, maxY - 15));
+            x = Math.max(minX + 8, Math.min(x, maxX - 8));
+            y = Math.max(minY + 8, Math.min(y, maxY - 8));
             
             const distToCenter = Math.sqrt((x - centerX)**2 + (y - centerY)**2);
-            if (distToCenter < excludeRadius + 15) {
+            if (distToCenter < excludeRadius + 18) {
                 const angle = Math.atan2(y - centerY, x - centerX);
-                x = centerX + Math.cos(angle) * (excludeRadius + 20);
-                y = centerY + Math.sin(angle) * (excludeRadius + 20);
-                x = Math.max(minX + 15, Math.min(x, maxX - 15));
-                y = Math.max(minY + 15, Math.min(y, maxY - 15));
+                x = centerX + Math.cos(angle) * (excludeRadius + 22);
+                y = centerY + Math.sin(angle) * (excludeRadius + 22);
+                
+                x = Math.max(minX + 8, Math.min(x, maxX - 8));
+                y = Math.max(minY + 8, Math.min(y, maxY - 8));
             }
             
             return { x, y };
         }
 
         function getFontSize(index, total) {
-            if (total <= 3) return 12;
-            if (total <= 5) return 11;
-            if (total <= 8) return 10;
-            if (total <= 12) return 9;
-            if (total <= 16) return 8;
-            if (total <= 24) return 7;
+            if (total <= 2) return 13;
+            if (total <= 4) return 12;
+            if (total <= 6) return 11;
+            if (total <= 10) return 10;
+            if (total <= 15) return 9;
+            if (total <= 20) return 8;
+            if (total <= 25) return 7;
             return 6;
         }
 
@@ -741,7 +750,7 @@
                 items.forEach((item, idx) => {
                     const fontSize = getFontSize(idx, items.length);
                     const truncated = truncateText(item.text, 40);
-                    const pos = getSimplePosition(quadKey, idx, items.length, quadrants, centerX, centerY, radius + exclusionBuffer);
+                    const pos = getOptimalGridPosition(quadKey, idx, items.length, quadrants, centerX, centerY, radius + exclusionBuffer);
                     
                     const color = colors[quadKey];
                     ctx.font = `${fontSize}px Arial`;
