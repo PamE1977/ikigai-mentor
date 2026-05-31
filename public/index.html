@@ -625,6 +625,17 @@
             });
         }
 
+        function getRowHeight(total) {
+            const quad = { height: 280 };
+            const padding = 30;
+            const availableHeight = quad.height - (padding * 2);
+            
+            const minRowHeight = 28;
+            const calculatedRowHeight = availableHeight / total;
+            
+            return Math.max(minRowHeight, calculatedRowHeight);
+        }
+
         function getPositionInQuadrant(quadKey, index, total) {
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
@@ -634,43 +645,25 @@
             };
 
             const quad = quadrants[quadKey];
-            const padding = 80;
+            const padding = 30;
+            const rowHeight = getRowHeight(total);
             
-            let cols = 1;
-            if (total > 10) cols = 2;
-            if (total > 15) cols = 3;
+            const x = quad.x[0] + (quad.x[1] - quad.x[0]) / 2;
+            const y = quad.y[0] + padding + (index * rowHeight) + (rowHeight / 2);
             
-            const colWidth = (quad.x[1] - quad.x[0] - padding * 2) / cols;
-            const colIndex = index % cols;
-            const rowIndex = Math.floor(index / cols);
-            const rowHeight = total > 15 ? 24 : total > 10 ? 28 : 30;
-            
-            const x = quad.x[0] + padding + (colIndex * colWidth) + (colWidth / 2);
-            const y = quad.y[0] + padding + (rowIndex * rowHeight);
-            
-            return { x, y: Math.min(y, quad.y[1] - padding - 40) };
+            return { x, y };
         }
 
         function getFontSize(index, total) {
-            let minSize = 10;
-            let maxSize = 14;
+            const rowHeight = getRowHeight(total);
             
-            if (total > 20) {
-                minSize = 8;
-                maxSize = 11;
-            } else if (total > 15) {
-                minSize = 9;
-                maxSize = 12;
-            } else if (total > 10) {
-                minSize = 10;
-                maxSize = 13;
-            } else if (total > 5) {
-                minSize = 11;
-                maxSize = 14;
-            }
+            const minFont = 9;
+            const maxFont = 14;
+            const minRowHeight = 28;
+            const maxRowHeight = 50;
             
-            const position = total - index;
-            return Math.max(minSize, Math.min(maxSize, minSize + (position / Math.max(total, 1)) * (maxSize - minSize)));
+            const fontSize = Math.round(minFont + ((rowHeight - minRowHeight) / (maxRowHeight - minRowHeight)) * (maxFont - minFont));
+            return Math.max(minFont, Math.min(maxFont, fontSize));
         }
 
         function truncateText(text, maxLength = 50) {
