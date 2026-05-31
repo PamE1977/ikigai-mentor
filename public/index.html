@@ -479,16 +479,18 @@
                         <span id="count-habilidad">0</span>
                     </div>
                     <div class="counter-row">
-                        <span>Lo que sé hacer</span>
-                        <span id="count-sustento">0</span>
-                    </div>
-                    <div class="counter-row">
                         <span>Huella</span>
                         <span id="count-valor">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Lo que sé hacer</span>
+                        <span id="count-sustento">0</span>
                     </div>
                 </div>
 
                 <button class="download-btn" onclick="downloadImage()">Descargar imagen</button>
+                <button class="download-btn" style="background: linear-gradient(135deg, #FF6B3D 0%, #FF8A5C 100%); margin-top: 10px;" onclick="downloadPPT()">Descargar como PPT</button>
+                <button class="download-btn" style="background: linear-gradient(135deg, #1E7FD4 0%, #3A9FE7 100%); margin-top: 10px;" onclick="showQR()">Ver QR del link</button>
             </div>
         </div>
 
@@ -504,12 +506,12 @@
                     <div class="responses-list" id="list-habilidad"></div>
                 </div>
                 <div class="quadrant-column">
-                    <h4>Lo que sé hacer</h4>
-                    <div class="responses-list" id="list-sustento"></div>
-                </div>
-                <div class="quadrant-column">
                     <h4>Huella</h4>
                     <div class="responses-list" id="list-valor"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Lo que sé hacer</h4>
+                    <div class="responses-list" id="list-sustento"></div>
                 </div>
             </div>
         </div>
@@ -521,10 +523,10 @@
         const socket = io();
 
         const colors = {
-            pasion: '#E89B6F',
-            habilidad: '#7EC97E',
-            valor: '#9B6F9B',
-            sustento: '#6F8FB3'
+            pasion: '#FF6B3D',
+            habilidad: '#22B34C',
+            valor: '#B83CB3',
+            sustento: '#1E7FD4'
         };
 
         let responses = {
@@ -626,33 +628,33 @@
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
                 habilidad: { x: [460, 740], y: [60, 340] },
-                sustento: { x: [460, 740], y: [460, 740] },
-                valor: { x: [60, 340], y: [460, 740] }
+                valor: { x: [60, 340], y: [460, 740] },
+                sustento: { x: [460, 740], y: [460, 740] }
             };
 
             const quad = quadrants[quadKey];
             const rowHeight = 28;
-            const padding = 60;
+            const padding = 80;
             
             const y = quad.y[0] + padding + (index * rowHeight);
             const x = quad.x[0] + padding + (Math.random() * (quad.x[1] - quad.x[0] - padding * 2));
 
-            return { x, y: Math.min(y, quad.y[1] - padding - 30) };
+            return { x, y: Math.min(y, quad.y[1] - padding - 40) };
         }
 
         function getFontSize(index, total) {
-            let minSize = 10;
-            let maxSize = 15;
+            let minSize = 12;
+            let maxSize = 18;
             
             if (total > 15) {
-                minSize = 9;
-                maxSize = 13;
+                minSize = 11;
+                maxSize = 16;
             } else if (total > 10) {
-                minSize = 9;
-                maxSize = 14;
+                minSize = 11;
+                maxSize = 17;
             } else if (total > 5) {
-                minSize = 10;
-                maxSize = 15;
+                minSize = 12;
+                maxSize = 18;
             }
             
             const position = total - index;
@@ -739,10 +741,10 @@
             ctx.fillText('LO QUE EL EQUIPO', 680, 20);
             ctx.fillText('NECESITA', 680, 40);
 
-            ctx.fillStyle = colors.sustento;
+            ctx.fillStyle = colors.valor;
             ctx.fillText('HUELLA', 120, 775);
 
-            ctx.fillStyle = colors.valor;
+            ctx.fillStyle = colors.sustento;
             ctx.fillText('LO QUE SÉ HACER', 680, 775);
 
             ctx.globalAlpha = 1;
@@ -758,6 +760,62 @@
                 a.click();
                 URL.revokeObjectURL(url);
             });
+        }
+
+        function downloadPPT() {
+            const canvas = document.getElementById('cloud');
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const img = new Image();
+                img.onload = () => {
+                    const html = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>IKIGAI MENTOR</title>
+                            <style>
+                                body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #faf9f7; }
+                                img { width: 100%; height: 100%; object-fit: contain; }
+                                .container { width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <img src="${url}" alt="IKIGAI MENTOR">
+                            </div>
+                        </body>
+                        </html>
+                    `;
+                    const blob2 = new Blob([html], {type: 'text/html'});
+                    const url2 = URL.createObjectURL(blob2);
+                    const a = document.createElement('a');
+                    a.href = url2;
+                    a.download = 'ikigai-mentor.html';
+                    a.click();
+                    URL.revokeObjectURL(url2);
+                };
+                img.src = url;
+            });
+        }
+
+        function showQR() {
+            const qrText = window.location.href;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(qrText)}`;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 9999;';
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 40px; border-radius: 16px; text-align: center;">
+                    <h2 style="margin-top: 0; color: #3d3d3d;">QR del Ikigai</h2>
+                    <img src="${qrUrl}" alt="QR Code" style="width: 300px; height: 300px; margin: 20px 0;">
+                    <p style="color: #8b8b8b; font-size: 13px; word-break: break-all;">${qrText}</p>
+                    <button onclick="this.closest('div').parentElement.remove()" style="padding: 10px 20px; background: #b8956f; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Cerrar</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
