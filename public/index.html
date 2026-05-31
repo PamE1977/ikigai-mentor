@@ -624,14 +624,7 @@
             });
         }
 
-        function getPositionInQuadrant(quadKey, index, total, attempt = 0) {
-            const quadrants = {
-                pasion: { x: [60, 340], y: [60, 340] },
-                habilidad: { x: [460, 740], y: [60, 340] },
-                valor: { x: [60, 340], y: [460, 740] },
-                sustento: { x: [460, 740], y: [460, 740] }
-            };
-
+        function getSimplePosition(quadKey, index, total, quadrants, centerX, centerY, excludeRadius) {
             const quad = quadrants[quadKey];
             const padding = 25;
             
@@ -640,37 +633,40 @@
             const minY = quad.y[0] + padding;
             const maxY = quad.y[1] - padding;
             
-            if (attempt < 15) {
-                let cols = 1;
-                if (total > 6) cols = 2;
-                if (total > 14) cols = 3;
-                if (total > 20) cols = 4;
-                
-                const rows = Math.ceil(total / cols);
-                const cellWidth = (maxX - minX) / cols;
-                const cellHeight = (maxY - minY) / rows;
-                
-                const col = index % cols;
-                const row = Math.floor(index / cols);
-                
-                const basePosX = minX + col * cellWidth + cellWidth / 2;
-                const basePosY = minY + row * cellHeight + cellHeight / 2;
-                
-                const randomX = (Math.random() - 0.5) * cellWidth * 0.5;
-                const randomY = (Math.random() - 0.5) * cellHeight * 0.5;
-                
-                let x = basePosX + randomX;
-                let y = basePosY + randomY;
-                
-                x = Math.max(minX + 10, Math.min(x, maxX - 10));
-                y = Math.max(minY + 10, Math.min(y, maxY - 10));
-                
-                return { x, y };
-            } else {
-                const x = minX + Math.random() * (maxX - minX);
-                const y = minY + Math.random() * (maxY - minY);
-                return { x, y };
+            let cols = 1;
+            if (total > 4) cols = 2;
+            if (total > 9) cols = 3;
+            if (total > 16) cols = 4;
+            
+            const rows = Math.ceil(total / cols);
+            const cellWidth = (maxX - minX) / cols;
+            const cellHeight = (maxY - minY) / rows;
+            
+            const col = index % cols;
+            const row = Math.floor(index / cols);
+            
+            const baseX = minX + col * cellWidth + cellWidth / 2;
+            const baseY = minY + row * cellHeight + cellHeight / 2;
+            
+            const randomX = (Math.random() - 0.5) * cellWidth * 0.4;
+            const randomY = (Math.random() - 0.5) * cellHeight * 0.4;
+            
+            let x = baseX + randomX;
+            let y = baseY + randomY;
+            
+            x = Math.max(minX + 15, Math.min(x, maxX - 15));
+            y = Math.max(minY + 15, Math.min(y, maxY - 15));
+            
+            const distToCenter = Math.sqrt((x - centerX)**2 + (y - centerY)**2);
+            if (distToCenter < excludeRadius + 15) {
+                const angle = Math.atan2(y - centerY, x - centerX);
+                x = centerX + Math.cos(angle) * (excludeRadius + 20);
+                y = centerY + Math.sin(angle) * (excludeRadius + 20);
+                x = Math.max(minX + 15, Math.min(x, maxX - 15));
+                y = Math.max(minY + 15, Math.min(y, maxY - 15));
             }
+            
+            return { x, y };
         }
 
         function getFontSize(index, total) {
@@ -685,31 +681,6 @@
 
         function truncateText(text, maxLength = 40) {
             return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-        }
-
-        function isValidPosition(pos, fontSize, text, ctx, centerX, centerY, excludeRadius, drawnTexts, quadrants, quadKey) {
-            const textWidth = ctx.measureText(text).width;
-            const textHeight = fontSize + 4;
-            
-            const distToCenter = Math.sqrt((pos.x - centerX)**2 + (pos.y - centerY)**2);
-            if (distToCenter < excludeRadius + textHeight / 2 + 5) return false;
-            
-            const quad = quadrants[quadKey];
-            if (pos.x - textWidth / 2 < quad.x[0] + 15) return false;
-            if (pos.x + textWidth / 2 > quad.x[1] - 15) return false;
-            if (pos.y - textHeight / 2 < quad.y[0] + 15) return false;
-            if (pos.y + textHeight / 2 > quad.y[1] - 15) return false;
-            
-            for (const drawn of drawnTexts) {
-                const dx = pos.x - drawn.x;
-                const dy = pos.y - drawn.y;
-                const distanceBetween = Math.sqrt(dx*dx + dy*dy);
-                const minDistance = (textWidth + drawn.width) / 2 + (textHeight + drawn.height) / 2 + 8;
-                
-                if (distanceBetween < minDistance) return false;
-            }
-            
-            return true;
         }
 
         function drawCloud() {
@@ -766,40 +737,20 @@
                 sustento: { x: [460, 740], y: [460, 740] }
             };
 
-            const drawnTexts = [];
-
             Object.entries(responses).forEach(([quadKey, items]) => {
                 items.forEach((item, idx) => {
                     const fontSize = getFontSize(idx, items.length);
                     const truncated = truncateText(item.text, 40);
+                    const pos = getSimplePosition(quadKey, idx, items.length, quadrants, centerX, centerY, radius + exclusionBuffer);
                     
-                    let foundPosition = false;
-                    for (let attempt = 0; attempt < 50; attempt++) {
-                        const pos = getPositionInQuadrant(quadKey, idx, items.length, attempt);
-                        
-                        if (isValidPosition(pos, fontSize, truncated, ctx, centerX, centerY, radius + exclusionBuffer, drawnTexts, quadrants, quadKey)) {
-                            const color = colors[quadKey];
-                            ctx.font = `${fontSize}px Arial`;
-                            ctx.fillStyle = color;
-                            ctx.globalAlpha = 0.65;
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(truncated, pos.x, pos.y);
-                            ctx.globalAlpha = 1;
-                            
-                            const textWidth = ctx.measureText(truncated).width;
-                            drawnTexts.push({
-                                x: pos.x,
-                                y: pos.y,
-                                width: textWidth,
-                                height: fontSize + 4,
-                                quadrant: quadKey
-                            });
-                            
-                            foundPosition = true;
-                            break;
-                        }
-                    }
+                    const color = colors[quadKey];
+                    ctx.font = `${fontSize}px Arial`;
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = 0.65;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(truncated, pos.x, pos.y);
+                    ctx.globalAlpha = 1;
                 });
             });
 
