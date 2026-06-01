@@ -172,6 +172,12 @@
         function addResponse() {
             const text = document.getElementById('inputText').value.trim();
             if (!text) return;
+            
+            if (responses[currentQuadrant].length >= 15) {
+                alert('Máximo 15 aportes por cuadrante');
+                return;
+            }
+            
             socket.emit('add_response', { sessionId: sessionId, quadrant: currentQuadrant, text: text, author: participantName });
             document.getElementById('inputText').value = '';
         }
@@ -212,56 +218,18 @@
             });
         }
 
-        function getOptimalGridPosition(quadKey, index, total, quadrants, centerX, centerY, excludeRadius) {
-            const quad = quadrants[quadKey];
-            const padding = 20;
-            const minX = quad.x[0] + padding;
-            const maxX = quad.x[1] - padding;
-            const minY = quad.y[0] + padding;
-            const maxY = quad.y[1] - padding;
-            
-            const quadWidth = maxX - minX;
-            const quadHeight = maxY - minY;
-            
-            const cols = 2;
-            const rows = Math.ceil(total / cols);
-            
-            const cellWidth = quadWidth / cols;
-            const cellHeight = quadHeight / rows;
-            
-            const col = index % cols;
-            const row = Math.floor(index / cols);
-            
-            let x = minX + col * cellWidth + cellWidth / 2;
-            let y = minY + row * cellHeight + cellHeight / 2;
-            
-            x = Math.max(minX + 20, Math.min(x, maxX - 20));
-            y = Math.max(minY + 10, Math.min(y, maxY - 10));
-            
-            const distToCenter = Math.sqrt((x - centerX)**2 + (y - centerY)**2);
-            if (distToCenter < excludeRadius + 25) {
-                const angle = Math.atan2(y - centerY, x - centerX);
-                x = centerX + Math.cos(angle) * (excludeRadius + 30);
-                y = centerY + Math.sin(angle) * (excludeRadius + 30);
-                x = Math.max(minX + 20, Math.min(x, maxX - 20));
-                y = Math.max(minY + 10, Math.min(y, maxY - 10));
-            }
-            
-            return { x, y };
+        function getFontSize(total) {
+            if (total >= 15) return 7;
+            if (total >= 12) return 8;
+            if (total >= 10) return 9;
+            if (total >= 8) return 10;
+            if (total >= 6) return 11;
+            if (total >= 4) return 12;
+            if (total >= 2) return 13;
+            return 14;
         }
 
-        function getFontSize(index, total) {
-            if (total <= 2) return 13;
-            if (total <= 4) return 12;
-            if (total <= 6) return 11;
-            if (total <= 10) return 10;
-            if (total <= 15) return 9;
-            if (total <= 20) return 8;
-            if (total <= 25) return 7;
-            return 6;
-        }
-
-        function truncateText(text, maxLength = 20) {
+        function truncateText(text, maxLength = 35) {
             return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
         }
 
@@ -289,7 +257,6 @@
             const centerX = 400;
             const centerY = 400;
             const radius = 100;
-            const exclusionBuffer = 20;
 
             ctx.fillStyle = '#f0ebe3';
             ctx.beginPath();
@@ -318,10 +285,21 @@
             };
 
             Object.entries(responses).forEach(([quadKey, items]) => {
+                if (items.length === 0) return;
+                
+                const quad = quadrants[quadKey];
+                const padding = 20;
+                const minY = quad.y[0] + padding;
+                const maxY = quad.y[1] - padding;
+                const centerQuadX = (quad.x[0] + quad.x[1]) / 2;
+                
+                const availableHeight = maxY - minY;
+                const fontSize = getFontSize(items.length);
+                const lineHeight = availableHeight / items.length;
+                
                 items.forEach((item, idx) => {
-                    const fontSize = getFontSize(idx, items.length);
-                    const truncated = truncateText(item.text, 20);
-                    const pos = getOptimalGridPosition(quadKey, idx, items.length, quadrants, centerX, centerY, radius + exclusionBuffer);
+                    const truncated = truncateText(item.text, 35);
+                    const y = minY + lineHeight * (idx + 0.5);
                     
                     const color = colors[quadKey];
                     ctx.font = `${fontSize}px Arial`;
@@ -329,7 +307,7 @@
                     ctx.globalAlpha = 0.65;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText(truncated, pos.x, pos.y);
+                    ctx.fillText(truncated, centerQuadX, y);
                     ctx.globalAlpha = 1;
                 });
             });
