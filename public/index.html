@@ -316,17 +316,24 @@
                 });
             });
 
+            // TÍTULOS DE CUADRANTES EN SUS COLORES
             ctx.globalAlpha = 1;
             ctx.font = 'bold 16px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#FFFFFF';
 
-            ctx.fillText('LO QUE ME MUEVE', 120, 25);
-            ctx.fillText('LO QUE EL EQUIPO', 680, 18);
-            ctx.fillText('NECESITA', 680, 36);
-            ctx.fillText('HUELLA', 120, 775);
-            ctx.fillText('LO QUE SÉ HACER', 680, 775);
+            ctx.fillStyle = '#FF6B3D';
+            ctx.fillText('LO QUE ME MUEVE', 200, 30);
+            
+            ctx.fillStyle = '#22B34C';
+            ctx.fillText('LO QUE EL EQUIPO', 600, 20);
+            ctx.fillText('NECESITA', 600, 40);
+            
+            ctx.fillStyle = '#B83CB3';
+            ctx.fillText('HUELLA', 200, 770);
+            
+            ctx.fillStyle = '#1E7FD4';
+            ctx.fillText('LO QUE SÉ HACER', 600, 770);
 
             ctx.globalAlpha = 1;
         }
