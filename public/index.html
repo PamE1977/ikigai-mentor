@@ -258,24 +258,24 @@
             const centerY = 400;
             const radius = 100;
 
-            ctx.fillStyle = '#FBF9F6';
+            ctx.fillStyle = '#f0ebe3';
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.strokeStyle = '#D4AF37';
-            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#d4c9ba';
+            ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.stroke();
 
-            ctx.fillStyle = '#D4AF37';
-            ctx.font = 'bold 28px Arial';
+            ctx.fillStyle = '#4a4a4a';
+            ctx.font = 'bold 36px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('IKIGAI', centerX, centerY - 12);
-            ctx.font = 'bold 28px Arial';
-            ctx.fillText('MENTOR', centerX, centerY + 16);
+            ctx.fillText('IKIGAI', centerX, centerY - 18);
+            ctx.fillStyle = '#6b6b6b';
+            ctx.fillText('MENTOR', centerX, centerY + 24);
 
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
@@ -301,9 +301,10 @@
                     const truncated = truncateText(item.text, 35);
                     const y = minY + lineHeight * (idx + 0.5);
                     
+                    const color = colors[quadKey];
                     ctx.font = `${fontSize}px Arial`;
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.globalAlpha = 0.9;
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = 0.65;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(truncated, centerQuadX, y);
@@ -315,12 +316,18 @@
             ctx.font = 'bold 16px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#FFFFFF';
 
+            ctx.fillStyle = colors.pasion;
             ctx.fillText('LO QUE ME MUEVE', 120, 25);
+
+            ctx.fillStyle = colors.habilidad;
             ctx.fillText('LO QUE EL EQUIPO', 680, 18);
             ctx.fillText('NECESITA', 680, 36);
+
+            ctx.fillStyle = colors.valor;
             ctx.fillText('HUELLA', 120, 775);
+
+            ctx.fillStyle = colors.sustento;
             ctx.fillText('LO QUE SÉ HACER', 680, 775);
 
             ctx.globalAlpha = 1;
