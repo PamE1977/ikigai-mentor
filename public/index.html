@@ -258,24 +258,25 @@
             const centerY = 400;
             const radius = 100;
 
-            ctx.fillStyle = '#f0ebe3';
+            // CENTRO MEJORADO
+            ctx.fillStyle = '#FAF8F4';
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.strokeStyle = '#d4c9ba';
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#D4AF37';
+            ctx.lineWidth = 4;
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.stroke();
 
-            ctx.fillStyle = '#4a4a4a';
-            ctx.font = 'bold 36px Arial';
+            ctx.fillStyle = '#D4AF37';
+            ctx.font = 'bold 32px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('IKIGAI', centerX, centerY - 18);
-            ctx.fillStyle = '#6b6b6b';
-            ctx.fillText('MENTOR', centerX, centerY + 24);
+            ctx.fillText('IKIGAI', centerX, centerY - 16);
+            ctx.font = 'bold 32px Arial';
+            ctx.fillText('MENTOR', centerX, centerY + 20);
 
             const quadrants = {
                 pasion: { x: [60, 340], y: [60, 340] },
@@ -289,6 +290,8 @@
                 
                 const quad = quadrants[quadKey];
                 const padding = 20;
+                const minX = quad.x[0] + padding;
+                const maxX = quad.x[1] - padding;
                 const minY = quad.y[0] + padding;
                 const maxY = quad.y[1] - padding;
                 const centerQuadX = (quad.x[0] + quad.x[1]) / 2;
@@ -296,18 +299,19 @@
                 const availableHeight = maxY - minY;
                 const fontSize = getFontSize(items.length);
                 const lineHeight = availableHeight / items.length;
+                const horizontalOffset = 40;
                 
                 items.forEach((item, idx) => {
                     const truncated = truncateText(item.text, 35);
                     const y = minY + lineHeight * (idx + 0.5);
+                    const x = idx % 2 === 0 ? centerQuadX - horizontalOffset : centerQuadX + horizontalOffset;
                     
-                    const color = colors[quadKey];
                     ctx.font = `${fontSize}px Arial`;
-                    ctx.fillStyle = color;
-                    ctx.globalAlpha = 0.65;
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.globalAlpha = 0.9;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText(truncated, centerQuadX, y);
+                    ctx.fillText(truncated, x, y);
                     ctx.globalAlpha = 1;
                 });
             });
@@ -316,18 +320,12 @@
             ctx.font = 'bold 16px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#FFFFFF';
 
-            ctx.fillStyle = colors.pasion;
             ctx.fillText('LO QUE ME MUEVE', 120, 25);
-
-            ctx.fillStyle = colors.habilidad;
             ctx.fillText('LO QUE EL EQUIPO', 680, 18);
             ctx.fillText('NECESITA', 680, 36);
-
-            ctx.fillStyle = colors.valor;
             ctx.fillText('HUELLA', 120, 775);
-
-            ctx.fillStyle = colors.sustento;
             ctx.fillText('LO QUE SÉ HACER', 680, 775);
 
             ctx.globalAlpha = 1;
