@@ -81,4 +81,766 @@
             transition: all 0.3s;
         }
 
-        .name-box inp
+        .name-box input:focus {
+            outline: none;
+            border-color: #b8956f;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(184, 149, 111, 0.08);
+        }
+
+        .name-box button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #b8956f 0%, #9d7e5f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 15px;
+        }
+
+        .name-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184, 149, 111, 0.2);
+        }
+
+        .session-info {
+            font-size: 12px;
+            color: #a8a8a8;
+            margin-top: 20px;
+            font-weight: 300;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 52px;
+            font-weight: 300;
+            color: #3d3d3d;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: #8b8b8b;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        .participants-online {
+            font-size: 13px;
+            color: #7ec97e;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .canvas-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 28px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #3d3d3d;
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .quadrant-btn {
+            padding: 10px 12px;
+            border: 1.5px solid #e0d5cc;
+            background: #fafafa;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b6b6b;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .quadrant-btn.active {
+            background: #b8956f;
+            color: white;
+            border-color: #b8956f;
+            box-shadow: 0 4px 12px rgba(184, 149, 111, 0.2);
+        }
+
+        .quadrant-btn:hover {
+            border-color: #b8956f;
+            background: #fef6f0;
+        }
+
+        .quadrant-btn.active:hover {
+            background: #9d7e5f;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0d5cc;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: none;
+            background: #fafafa;
+            transition: all 0.3s;
+            color: #3d3d3d;
+            min-height: 100px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #b8956f;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(184, 149, 111, 0.08);
+        }
+
+        textarea::placeholder {
+            color: #b8b8b8;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #b8956f 0%, #9d7e5f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 149, 111, 0.25);
+        }
+
+        .counter {
+            font-size: 14px;
+        }
+
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            color: #6b6b6b;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .counter-row span:last-child {
+            font-weight: 700;
+            color: #3d3d3d;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #7ec97e 0%, #6db36d 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(126, 201, 126, 0.25);
+        }
+
+        .responses-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 28px;
+        }
+
+        .responses-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3d3d3d;
+            margin-bottom: 28px;
+            letter-spacing: -0.3px;
+        }
+
+        .responses-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .quadrant-column h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #6b6b6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0d5cc;
+        }
+
+        .responses-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .responses-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .responses-list::-webkit-scrollbar-track {
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .responses-list::-webkit-scrollbar-thumb {
+            background: #d4d4d4;
+            border-radius: 10px;
+        }
+
+        .response-item {
+            background: #fafafa;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+            font-size: 13px;
+            animation: slideIn 0.4s ease;
+            transition: all 0.2s;
+        }
+
+        .response-item:hover {
+            background: #f5f5f5;
+            transform: translateX(4px);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .response-item p {
+            color: #3d3d3d;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            word-wrap: break-word;
+        }
+
+        .response-item small {
+            color: #8b8b8b;
+            font-size: 12px;
+        }
+
+        .empty-message {
+            color: #b8b8b8;
+            font-size: 13px;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .responses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .responses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .name-box {
+                padding: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="name-screen" id="nameScreen">
+        <div class="name-box">
+            <h1>IKIGAI<br>MENTOR</h1>
+            <p>¿Cómo te llamas?</p>
+            <input type="text" id="nameInput" placeholder="Tu nombre (opcional)">
+            <button onclick="startSession()">Comenzar</button>
+            <div class="session-info">Sincronización en tiempo real para todos</div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="mainApp">
+        <div class="header">
+            <h1>IKIGAI MENTOR</h1>
+            <p>Construyamos juntos - <span id="displayName">Participante</span></p>
+            <div class="participants-online">
+                <span id="participantCount">●</span> participantes en línea
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="canvas-container">
+                <canvas id="cloud" width="800" height="800" style="border-radius: 12px;"></canvas>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <h3>Agregar aporte</h3>
+                    
+                    <label style="font-size: 13px; color: #6b6b6b; font-weight: 600; display: block; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.3px;">
+                        Cuadrante:
+                    </label>
+                    <div class="button-grid">
+                        <button class="quadrant-btn active" onclick="selectQuadrant('pasion')">LO QUE ME MUEVE</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('habilidad')">LO QUE EL EQUIPO NECESITA</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('valor')">HUELLA</button>
+                        <button class="quadrant-btn" onclick="selectQuadrant('sustento')">LO QUE SÉ HACER</button>
+                    </div>
+
+                    <textarea id="inputText" rows="3" placeholder="Escribe tu aporte..." style="margin-bottom: 12px;"></textarea>
+                    <button class="add-btn" onclick="addResponse()">Agregar</button>
+                </div>
+
+                <div class="card counter">
+                    <h3>Aportes totales</h3>
+                    <div class="counter-row">
+                        <span>Lo que me mueve</span>
+                        <span id="count-pasion">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Lo que el equipo necesita</span>
+                        <span id="count-habilidad">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Huella</span>
+                        <span id="count-valor">0</span>
+                    </div>
+                    <div class="counter-row">
+                        <span>Lo que sé hacer</span>
+                        <span id="count-sustento">0</span>
+                    </div>
+                </div>
+
+                <button class="download-btn" onclick="downloadImage()">Descargar imagen</button>
+                <button class="download-btn" style="background: linear-gradient(135deg, #FF6B3D 0%, #FF8A5C 100%); margin-top: 10px;" onclick="downloadPPT()">Descargar como PPT</button>
+                <button class="download-btn" style="background: linear-gradient(135deg, #1E7FD4 0%, #3A9FE7 100%); margin-top: 10px;" onclick="showQR()">Ver QR del link</button>
+            </div>
+        </div>
+
+        <div class="responses-section">
+            <h3>Todos los aportes</h3>
+            <div class="responses-grid">
+                <div class="quadrant-column">
+                    <h4>Lo que me mueve</h4>
+                    <div class="responses-list" id="list-pasion"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Lo que el equipo necesita</h4>
+                    <div class="responses-list" id="list-habilidad"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Huella</h4>
+                    <div class="responses-list" id="list-valor"></div>
+                </div>
+                <div class="quadrant-column">
+                    <h4>Lo que sé hacer</h4>
+                    <div class="responses-list" id="list-sustento"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+
+        const colors = {
+            pasion: '#FF6B3D',
+            habilidad: '#22B34C',
+            valor: '#B83CB3',
+            sustento: '#1E7FD4'
+        };
+
+        let responses = {
+            pasion: [],
+            habilidad: [],
+            valor: [],
+            sustento: []
+        };
+
+        let currentQuadrant = 'pasion';
+        let participantName = '';
+        let sessionId = '';
+
+        function getSessionId() {
+            const pathParts = window.location.pathname.split('/');
+            const id = pathParts[pathParts.length - 1];
+            return id && id !== '' ? id : 'general';
+        }
+
+        function startSession() {
+            const name = document.getElementById('nameInput').value;
+            participantName = name || 'Anónimo';
+            sessionId = getSessionId();
+
+            document.getElementById('displayName').textContent = participantName;
+            document.getElementById('nameScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+
+            socket.emit('join_session', {
+                sessionId: sessionId,
+                participantName: participantName
+            });
+
+            drawCloud();
+        }
+
+        function selectQuadrant(quad) {
+            currentQuadrant = quad;
+            document.querySelectorAll('.quadrant-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function addResponse() {
+            const text = document.getElementById('inputText').value.trim();
+            if (!text) return;
+
+            socket.emit('add_response', {
+                sessionId: sessionId,
+                quadrant: currentQuadrant,
+                text: text,
+                author: participantName
+            });
+
+            document.getElementById('inputText').value = '';
+        }
+
+        socket.on('load_data', (data) => {
+            responses = data.responses;
+            updateCounters();
+            updateLists();
+            drawCloud();
+        });
+
+        socket.on('response_added', (data) => {
+            responses = data.allResponses;
+            updateCounters();
+            updateLists();
+            drawCloud();
+        });
+
+        socket.on('update_participants', (data) => {
+            document.getElementById('participantCount').textContent = data.count;
+        });
+
+        function updateCounters() {
+            document.getElementById('count-pasion').textContent = responses.pasion.length;
+            document.getElementById('count-habilidad').textContent = responses.habilidad.length;
+            document.getElementById('count-valor').textContent = responses.valor.length;
+            document.getElementById('count-sustento').textContent = responses.sustento.length;
+        }
+
+        function updateLists() {
+            ['pasion', 'habilidad', 'valor', 'sustento'].forEach(quad => {
+                const container = document.getElementById(`list-${quad}`);
+                if (responses[quad].length === 0) {
+                    container.innerHTML = '<p class="empty-message">Sin aportes</p>';
+                } else {
+                    container.innerHTML = responses[quad].map((item, idx) => `
+                        <div class="response-item" style="border-left-color: ${colors[quad]}">
+                            <p>${item.text}</p>
+                            <small>— ${item.author}</small>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+
+        function getOptimalGridPosition(quadKey, index, total, quadrants, centerX, centerY, excludeRadius) {
+            const quad = quadrants[quadKey];
+            const padding = 12;
+            
+            const minX = quad.x[0] + padding;
+            const maxX = quad.x[1] - padding;
+            const minY = quad.y[0] + padding;
+            const maxY = quad.y[1] - padding;
+            
+            const quadWidth = maxX - minX;
+            const quadHeight = maxY - minY;
+            
+            const cols = Math.ceil(Math.sqrt(total));
+            const rows = Math.ceil(total / cols);
+            
+            const cellWidth = quadWidth / cols;
+            const cellHeight = quadHeight / rows;
+            
+            const col = index % cols;
+            const row = Math.floor(index / cols);
+            
+            let x = minX + col * cellWidth + cellWidth / 2;
+            let y = minY + row * cellHeight + cellHeight / 2;
+            
+            x = Math.max(minX + 8, Math.min(x, maxX - 8));
+            y = Math.max(minY + 8, Math.min(y, maxY - 8));
+            
+            const distToCenter = Math.sqrt((x - centerX)**2 + (y - centerY)**2);
+            if (distToCenter < excludeRadius + 20) {
+                const angle = Math.atan2(y - centerY, x - centerX);
+                x = centerX + Math.cos(angle) * (excludeRadius + 25);
+                y = centerY + Math.sin(angle) * (excludeRadius + 25);
+                
+                x = Math.max(minX + 8, Math.min(x, maxX - 8));
+                y = Math.max(minY + 8, Math.min(y, maxY - 8));
+            }
+            
+            return { x, y };
+        }
+
+        function getFontSize(index, total) {
+            if (total <= 2) return 13;
+            if (total <= 4) return 12;
+            if (total <= 6) return 11;
+            if (total <= 10) return 10;
+            if (total <= 15) return 9;
+            if (total <= 20) return 8;
+            if (total <= 25) return 7;
+            return 6;
+        }
+
+        function truncateText(text, maxLength = 40) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function drawCloud() {
+            const canvas = document.getElementById('cloud');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = 800;
+            const height = 800;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.strokeStyle = '#f0ede8';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(400, 60);
+            ctx.lineTo(400, 740);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(60, 400);
+            ctx.lineTo(740, 400);
+            ctx.stroke();
+
+            const centerX = 400;
+            const centerY = 400;
+            const radius = 100;
+            const exclusionBuffer = 20;
+
+            ctx.fillStyle = '#f0ebe3';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#d4c9ba';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = '#4a4a4a';
+            ctx.font = 'bold 36px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('IKIGAI', centerX, centerY - 18);
+            ctx.font = 'bold 36px Arial';
+            ctx.fillStyle = '#6b6b6b';
+            ctx.fillText('MENTOR', centerX, centerY + 24);
+
+            const quadrants = {
+                pasion: { x: [60, 340], y: [60, 340] },
+                habilidad: { x: [460, 740], y: [60, 340] },
+                valor: { x: [60, 340], y: [460, 740] },
+                sustento: { x: [460, 740], y: [460, 740] }
+            };
+
+            Object.entries(responses).forEach(([quadKey, items]) => {
+                items.forEach((item, idx) => {
+                    const fontSize = getFontSize(idx, items.length);
+                    const truncated = truncateText(item.text, 40);
+                    const pos = getOptimalGridPosition(quadKey, idx, items.length, quadrants, centerX, centerY, radius + exclusionBuffer);
+                    
+                    const color = colors[quadKey];
+                    ctx.font = `${fontSize}px Arial`;
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = 0.65;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(truncated, pos.x, pos.y);
+                    ctx.globalAlpha = 1;
+                });
+            });
+
+            ctx.globalAlpha = 1;
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            ctx.fillStyle = colors.pasion;
+            ctx.fillText('LO QUE ME MUEVE', 120, 25);
+
+            ctx.fillStyle = colors.habilidad;
+            ctx.fillText('LO QUE EL EQUIPO', 680, 18);
+            ctx.fillText('NECESITA', 680, 36);
+
+            ctx.fillStyle = colors.valor;
+            ctx.fillText('HUELLA', 120, 775);
+
+            ctx.fillStyle = colors.sustento;
+            ctx.fillText('LO QUE SÉ HACER', 680, 775);
+
+            ctx.globalAlpha = 1;
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('cloud');
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'ikigai-mentor.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        function downloadPPT() {
+            const canvas = document.getElementById('cloud');
+            const imageData = canvas.toDataURL('image/png');
+            
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IKIGAI MENTOR</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        .slide { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #faf9f7; }
+        img { width: 100%; height: 100%; object-fit: contain; }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <img src="${imageData}" alt="IKIGAI MENTOR">
+    </div>
+</body>
+</html>`;
+            
+            const blob = new Blob([html], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ikigai-mentor.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function showQR() {
+            const qrText = window.location.href;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(qrText)}`;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 9999;';
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 40px; border-radius: 16px; text-align: center;">
+                    <h2 style="margin-top: 0; color: #3d3d3d;">QR del Ikigai</h2>
+                    <img src="${qrUrl}" alt="QR Code" style="width: 300px; height: 300px; margin: 20px 0;">
+                    <p style="color: #8b8b8b; font-size: 13px; word-break: break-all;">${qrText}</p>
+                    <button onclick="this.closest('div').parentElement.remove()" style="padding: 10px 20px; background: #b8956f; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Cerrar</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('inputText')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addResponse();
+            });
+            document.getElementById('nameInput')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') startSession();
+            });
+        });
+    </script>
+</body>
+</html>
