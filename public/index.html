@@ -258,7 +258,6 @@
             const centerY = 400;
             const radius = 100;
 
-            // CENTRO MEJORADO
             ctx.fillStyle = '#FAF8F4';
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
@@ -307,8 +306,8 @@
                     const x = idx % 2 === 0 ? centerQuadX - horizontalOffset : centerQuadX + horizontalOffset;
                     
                     ctx.font = `${fontSize}px Arial`;
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.globalAlpha = 0.9;
+                    ctx.fillStyle = colors[quadKey];
+                    ctx.globalAlpha = 1;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(truncated, x, y);
@@ -316,7 +315,6 @@
                 });
             });
 
-            // TÍTULOS DE CUADRANTES EN SUS COLORES
             ctx.globalAlpha = 1;
             ctx.font = 'bold 16px Arial';
             ctx.textAlign = 'center';
